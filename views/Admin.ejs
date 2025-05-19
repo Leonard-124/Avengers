@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="st.css">
+</head>
+<body>
+    <style>
+        .hidden {
+    display: none;
+}
+
+#admin-section {
+    width: 300px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #333;
+    text-align: center;
+}
+
+    </style>
+    <div id="admin-section" class="hidden">
+        <h1>Welcome, Admin</h1>
+        <p>Manage the Company data </p>
+        <p>Loading...</p>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <script>
+        // Simulate authentication (replace this with actual login logic)
+const isAdmin = true; // Change to false for non-admins
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (isAdmin) {
+        document.getElementById("admin-section").classList.remove("hidden");
+    } else {
+        alert("Access denied. Admins only!");
+    }
+});
+
+function logout() {
+    alert("Logging out...");
+    location.reload(); // Simulate logout action
+}
+
+    </script>
+</body>
+</html>

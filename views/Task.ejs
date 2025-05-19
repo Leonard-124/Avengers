@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <link rel="stylesheet" href="Task.css">
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+.task-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+    padding: 5px;
+    background: #e3e3e3;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+#status {
+    margin-top: 10px;
+    color: green;
+    font-weight: bold;
+}
+
+    </style>
+    <div class="task-container">
+        <h2>Today's Tasks</h2>
+        <ul id="task-list">
+            <!-- Tasks will be injected here -->
+        </ul>
+        <button onclick="downloadTasks()">Download Tasks</button>
+        <p id="status"></p>
+    </div>
+    <script>
+// Pool of tasks
+const taskPool = [
+    "Complete project report",
+    "Attend client meeting",
+    "Update website content",
+    "Check email responses",
+    "Plan next week's schedule",
+    "Research new trends",
+    "Optimize website performance",
+    "Write a blog post",
+    "Prepare a presentation",
+    "Review client feedback"
+];
+
+// Function to shuffle and get random tasks
+function getRandomTasks(num) {
+    let shuffled = taskPool.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, num);
+}
+
+// Load random tasks into the list
+window.onload = function () {
+    const taskList = document.getElementById("task-list");
+    const tasks = getRandomTasks(5); // Get 5 random tasks
+
+    tasks.forEach(task => {
+        let li = document.createElement("li");
+        li.textContent = task;
+        taskList.appendChild(li);
+    });
+};
+
+// Function to download the tasks with a progress indicator
+function downloadTasks() {
+    const status = document.getElementById("status");
+    status.textContent = "Downloading..."; // Show progress
+
+    setTimeout(() => {
+        const tasks = document.querySelectorAll("#task-list li");
+        const taskText = [...tasks].map(t => t.textContent).join("\n");
+
+        const blob = new Blob([taskText], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "daily_tasks.txt";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        status.textContent = "Download Complete! ✅"; // Show completion message
+    }, 2000); // Simulate delay
+}
+
+    </script>
+</body>
+</html>

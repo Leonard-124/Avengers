@@ -1,0 +1,143 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team</title>
+    <link rel="stylesheet" href="sty.css">
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+
+    .contai {  
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+    color: #007bff;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #e3e3e3;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+input, select {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #218838;
+}
+
+    </style>
+    <div class="contai">
+        <h1>EarNET Contribution Teams.</h1>
+
+        <div class="teams">
+            <h2>Available Teams</h2>
+            <ul id="teamList">
+                <!-- Teams will be dynamically generated here -->
+            </ul>
+        </div>
+
+        <div class="join-team">
+            <h2>Join a Team</h2>
+            <label>Select a team:</label>
+            <select id="teamSelect"></select>
+
+            <label>Your Name:</label>
+            <input type="text" id="memberName" placeholder="Enter your name">
+
+            <button onclick="joinTeam()">Join Team</button>
+        </div>
+
+        <h3>Invitation Link</h3>
+        <p id="invitationLink"></p>
+    </div>
+
+    <script>
+        // Sample teams with leaders
+const teams = [
+    { name: "Team A", leader: "Bobby", members: [] },
+    { name: "Team B", leader: "Ngoima", members: [] },
+    { name: "Team C", leader: "Andrew", members: [] }
+];
+
+// Populate teams in dropdown and list
+window.onload = function () {
+    const teamSelect = document.getElementById("teamSelect");
+    const teamList = document.getElementById("teamList");
+
+    teams.forEach(team => {
+        // Add to select dropdown
+        let option = document.createElement("option");
+        option.value = team.name;
+        option.textContent = team.name;
+        teamSelect.appendChild(option);
+
+        // Add to list
+        let li = document.createElement("li");
+        li.innerHTML = `<strong>${team.name}</strong> - Leader: ${team.leader} <br> Members: <span id="${team.name}-members">None</span>`;
+        teamList.appendChild(li);
+    });
+};
+
+// Function to add a user to a team
+function joinTeam() {
+    const selectedTeamName = document.getElementById("teamSelect").value;
+    const memberName = document.getElementById("memberName").value;
+
+    if (memberName.trim() === "") {
+        alert("Please enter your name!");
+        return;
+    }
+
+    // Find the team and add the member
+    let selectedTeam = teams.find(team => team.name === selectedTeamName);
+    selectedTeam.members.push(memberName);
+
+    // Update UI
+    document.getElementById(`${selectedTeam.name}-members`).textContent = selectedTeam.members.join(", ");
+
+    // Generate invitation link
+    let inviteLink = `https://yourplatform.com/join?team=${encodeURIComponent(selectedTeam.name)}`;
+    document.getElementById("invitationLink").textContent = `Share this link: ${inviteLink}`;
+}
+
+    </script>
+</body>
+</html>

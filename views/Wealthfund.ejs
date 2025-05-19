@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealthfund</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 17px;
+}
+
+.containe {
+    max-width: 450px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.form {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #218838;
+}
+
+.result {
+    display: none;
+    padding: 10px;
+    background: #e9f5e9;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background: #28a745;
+    color: white;
+}
+
+    </style>
+    <div class="containe">
+        <h1>Wealth Fund Savings</h1>
+
+        <div class="form">
+            <label>Initial Deposit:</label>
+            <input type="number" id="initialDeposit" placeholder="Enter amount">
+
+            <label>Monthly Contribution:</label>
+            <input type="number" id="monthlyContribution" placeholder="Enter amount">
+
+            <label>Interest Rate (% per year):</label>
+            <input type="number" id="interestRate" placeholder="Enter rate">
+
+            <label>Saving Duration (years):</label>
+            <input type="number" id="years" placeholder="Enter years">
+
+            <button onclick="calculateWealth()">Calculate Wealth</button>
+        </div>
+
+        <div class="result">
+            <h2>Accumulated Wealth</h2>
+            <p id="totalWealth"></p>
+            <h3>Breakdown Table</h3>
+            <table id="wealthTable">
+                <tr>
+                    <th>Year</th>
+                    <th>Balance</th>
+                    <th>Interest</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+function calculateWealth() {
+    let initialDeposit = parseFloat(document.getElementById("initialDeposit").value);
+    let monthlyContribution = parseFloat(document.getElementById("monthlyContribution").value);
+    let interestRate = parseFloat(document.getElementById("interestRate").value) / 100;
+    let years = parseInt(document.getElementById("years").value);
+
+    let totalBalance = initialDeposit;
+    let table = document.getElementById("wealthTable");
+    
+    // Clear previous results
+    table.innerHTML = "<tr><th>Year</th><th>Balance</th><th>Interest</th></tr>";
+
+    for (let year = 1; year <= years; year++) {
+        // Apply interest formula for yearly growth
+        totalBalance += (monthlyContribution * 12);
+        let interestEarned = totalBalance * interestRate;
+        totalBalance += interestEarned;
+
+        // Append row to table
+        let row = table.insertRow();
+        row.innerHTML = `<td>${year}</td><td>$${totalBalance.toFixed(2)}</td><td>$${interestEarned.toFixed(2)}</td>`;
+    }
+
+    document.getElementById("totalWealth").innerHTML = `Total Wealth after ${years} years: <strong>$${totalBalance.toFixed(2)}</strong>`;
+    document.querySelector(".result").style.display = "block";
+}
+
+    </script>
+</body>
+</html>
